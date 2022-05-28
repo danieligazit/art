@@ -1,0 +1,10 @@
+[workspace]
+members = [
+    "01_schotter", 
+    "02_particles", 
+    "03_flow_fields",
+    "04_penrose_flake",
+]
+resolver="2"
+
+
