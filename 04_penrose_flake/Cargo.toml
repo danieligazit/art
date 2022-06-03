@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 nannou = "0.18.1"
+palette = { version = "0.5", default-features = false, features = ["named"] }

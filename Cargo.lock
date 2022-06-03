@@ -1523,6 +1523,7 @@ name = "penrose_flake"
 version = "0.1.0"
 dependencies = [
  "nannou",
+ "palette",
 ]
 
 [[package]]
