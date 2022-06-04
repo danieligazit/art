@@ -58,6 +58,7 @@ impl PenroseFlake {
     }
 
     pub fn update(&mut self) {
+        
         self.pos = match self.buf.last(){
             None => self.pos,
             Some(pos) => *pos
@@ -102,11 +103,6 @@ impl PenroseFlake {
             _ => {}
         }
 
-        
-        // for _ in 0..times {
-        //     self.update_once();
-        // }
-        
     }
 
     fn update_once(&mut self) {
@@ -150,7 +146,7 @@ impl PenroseFlake {
             draw.line()
                 .start(pos)
                 .end(*point)
-                .weight(1.0)
+                .weight(0.4)
                 .color(self.color)
                 ;
             pos = *point;

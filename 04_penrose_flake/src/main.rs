@@ -27,20 +27,17 @@ fn model(app: &App) -> Model {
 
 
 fn update(app: &App, model: &mut Model, _update: Update) {
-    for flake in model.flakes.iter_mut() {
-        flake.update();
-    }
 
     for (frame, pos, axiom, rule, color, theta) in [
         // (0, app.window_rect().top_left(), WHITE)       
-        (0, vec2(-300.0, 20.0), "F3-F3-F3-F3-F", "F3-F3-F45-F++F3-F", WHITE, PI / 10.0),
         // (30, app.window_rect().top_left(), "F", "F+F-F", LIGHTGRAY, PI * 2.0/ 3.0),
-        (0, vec2(50.0, 0.0), "F", "F+F-F", LIGHTGRAY, PI * 2.0/ 3.0),
+        (0, vec2(-300.0, 20.0), "F3-F3-F3-F3-F", "F3-F3-F45-F++F3-F", WHITE, PI / 10.0),
+        (0, vec2(120.0, 0.0), "F", "F+F-F", LIGHTGRAY, PI * 2.0/ 3.0),
         (0, vec2(0.0, -200.0), "F", "+F+F-F-F+F+F+F-F-F+F", CYAN, PI / 2.0),
 
     ]{
         if app.elapsed_frames() != frame {continue;}
-        println!("{}", app.elapsed_frames());
+
 
         let mut flake = penrose_flake::PenroseFlake::new(
             pos,
@@ -55,6 +52,12 @@ fn update(app: &App, model: &mut Model, _update: Update) {
         flake.simulate(4);
         model.flakes.push(flake);
     }
+
+    if app.elapsed_frames() % 2  == 0 {return;}
+    for flake in model.flakes.iter_mut() {
+        flake.update();
+    }
+
 }
 
 fn view(app: &App, model: &Model, frame: Frame) {

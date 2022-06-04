@@ -472,6 +472,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "differential_growth"
+version = "0.1.0"
+dependencies = [
+ "kdtree",
+ "nannou",
+]
+
+[[package]]
 name = "dirs"
 version = "4.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -893,6 +901,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "671a26f820db17c2a2750743f1dd03bafd15b98c9f30c7c2628c024c05d73397"
 dependencies = [
  "wasm-bindgen",
+]
+
+[[package]]
+name = "kdtree"
+version = "0.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b63d659081717fe428fbaf9549559083956450194e57e8d28498a0dfa31b3b04"
+dependencies = [
+ "num-traits",
 ]
 
 [[package]]
