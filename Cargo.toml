@@ -5,6 +5,7 @@ members = [
     "03_flow_fields",
     "04_penrose_flake",
     "05_differential_growth",
+    "06_differential_growth_vec",
 ]
 resolver="2"
 

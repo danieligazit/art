@@ -1,6 +1,6 @@
 
 [package]
-name = "differential_growth"
+name = "differential_growth_vec"
 version = "0.1.0"
 edition = "2021"
 
@@ -8,5 +8,7 @@ edition = "2021"
 
 [dependencies]
 nannou = "0.18.1"
-kdtree = "0.5.1"
+kd-tree = "0.4.1"
 rand = "0.6.5"
+typenum = "1.15.0"
+itertools = "0.10.3"
