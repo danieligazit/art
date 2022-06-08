@@ -6,6 +6,7 @@ members = [
     "04_penrose_flake",
     "05_differential_growth",
     "06_differential_growth_vec",
+    "07_edge_detection",
 ]
 resolver="2"
 

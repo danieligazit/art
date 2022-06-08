@@ -1,0 +1,16 @@
+
+[package]
+name = "edge_detection"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+nannou = "0.18.1"
+kd-tree = "0.4.1"
+rand = "0.6.5"
+typenum = "1.15.0"
+itertools = "0.10.3"
+edge-detection = "0.2.6"
+image = "0.24"

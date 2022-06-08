@@ -9,6 +9,7 @@ use rand::distributions::{Normal, Distribution};
 mod utils;
 extern crate nannou;
 use nannou::prelude::*;
+use nannou::color::{Alpha, Rgb, IntoLinSrgba};
 use utils::FRange;
 
 #[derive(Clone)]
@@ -28,12 +29,14 @@ impl Node {
 
 struct Path{
     nodes: Vec<Node>,
+    color: Srgb<f32>,
 }
 
 impl Path{
-    fn new() -> Path{
+    fn new(color: Srgb<f32>) -> Path{
         Path { 
             nodes: Vec::new(),
+            color: color,
             // kd_tree: KdTree::build_by_ordered_float(vec![]),
         }
     }
@@ -171,7 +174,7 @@ impl Path{
                         .start(prev.cur_pos)
                         .end(node.cur_pos)
                         .stroke_weight(0.5)
-                        .color(WHITE)
+                        .color(self.color)
                         ;
             })
             
@@ -181,7 +184,7 @@ impl Path{
 }
 
 struct Model{
-    path: Path,
+    paths: Vec<Path>,
     elapsed: usize,
 }
 
@@ -194,27 +197,40 @@ const SPLIT_LENGTH: f32 = 10.0;
 
 fn model(app: &App) -> Model {
     app.new_window()
+        .size(1920, 1080)
         .view(view)
         .build()
         .unwrap();  
 
     
-    let mut path = Path::new();
+    
+    let mut path = Path::new(WHITE.into_lin_srgba().try_into().unwrap());
 
     let radius = 200.0;
 
     for step in FRange::new(0.0, 2.0 * PI, 0.05){    
         path.add_node(Node::new(vec2(0.0 + radius*step.sin(), 0.0 + radius*step.cos())));
     }
-    Model {path: path, elapsed: 0}
+
+    let mut path2 = Path::new(GRAY.into_lin_srgba().try_into().unwrap());
+
+    let radius = 450.0;
+
+    for step in FRange::new(0.0, 2.0 * PI, 0.05){    
+        path2.add_node(Node::new(vec2(0.0 + radius*step.sin(), 0.0 + radius*step.cos())));
+    }
+
+
+    Model {paths: vec![path, path2], elapsed: 0}
 }
 
 
 fn update(app: &App, model: &mut Model, _update: Update) {
-    model.elapsed += 1;
-    
-    model.path.update();
-
+    model.paths
+        .iter_mut()
+        .for_each(|path| {
+            path.update();
+        });
 
 }
 
@@ -223,10 +239,15 @@ fn view(app: &App, model: &Model, frame: Frame) {
     let draw = app.draw();
     // frame.clear(BLACK);
 
-    draw.rect().w_h(1024.0, 1024.0).color(srgba(0.0, 0.0, 0.0, 0.05));
+    draw.rect().w_h(1920.0, 1080.0).color(srgba(0.0, 0.0, 0.0, 0.05));
 
-    model.path.view(&draw);
+    model.paths[0].view(&draw);
+
+    if model.elapsed % 200 == 0 || model.elapsed % 201 == 0 || model.elapsed % 202 == 0 || model.elapsed % 203 == 0 || model.elapsed % 204 == 0 || model.elapsed % 205 == 0 || model.elapsed % 206 == 0 {
+        model.paths[1].view(&draw);
+    }
     
+
     draw.to_frame(app, &frame).unwrap();
 
 }
