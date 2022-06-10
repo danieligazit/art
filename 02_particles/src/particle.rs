@@ -1,46 +1,81 @@
-
+use nannou::prelude::geom::polygon::triangles;
 use nannou::prelude::*;
 
+use std::iter;
+
+#[derive(Debug)]
 pub struct Particle {
-    position: Point2,
-    velocity: Vec2,
-    acceleration: Vec2,
-    life_span: f32,
+    pub pos: Point2,
+    pub next_pos: Point2,
+    tail: Vec<Point2>,
+    pub tail_length: usize,
+    achieved_adulthood: bool,
+    pub life_span: f32,
 }
 
 impl Particle {
     pub fn new(l: Point2) -> Self {
         Particle {
-            acceleration: vec2(0.0, 0.05),
-            velocity: vec2(random_f32() * 2.0 - 1.0, random_f32() - 1.0),
-            position: l,
-            life_span: 255.0,
+            tail: Vec::new(),
+            pos: l,
+            next_pos: l,
+            tail_length: 80,
+            achieved_adulthood: false,
+            life_span: 100.0,
         }
+    }
+
+    pub fn apply_position<F: Fn(&Particle) -> Point2>(&mut self, func: F){
+        self.next_pos = func(&self);
     }
 
     // Method to update position
     pub fn update(&mut self) {
-        self.velocity += self.acceleration;
-        self.position -= self.velocity;
+
+        if !self.is_dead(){
+            self.pos = self.next_pos;
+            self.tail.push(self.pos);
+            // self.velocity += self.acceleration;
+            // self.pos -= self.velocity;
+        }
+        
         self.life_span -= 1.0;
+        
+        if (self.achieved_adulthood || self.is_dead()) && self.tail.len() > 0 {
+            self.tail.remove(0);
+        }
+
+        if self.tail.len() >= self.tail_length {
+            self.achieved_adulthood = true;
+        }
     }
 
     // Method to display
     pub fn display(&self, draw: &Draw) {
-        draw.ellipse()
-            .xy(self.position)
-            .w_h(12.0, 12.0)
-            .rgba(0.5, 0.5, 0.5, self.life_span / 255.0)
-            // .stroke(rgba(0.0, 0.0, 0.0, self.life_span / 255.0))
-            .stroke_weight(0.0);
+        let points = self.tail
+            .iter()
+            .map(|point| {
+                (*point, BLACK)
+            })
+            .chain(iter::once((self.pos, BLACK)));
+        
+        // let traingles = triangles(points);
+        // let poly = polyline::benel(points, thickness).round().triangles();
+
+        draw
+            .polyline()
+            .weight(3.0)
+            .points_colored(points)
+            ;
     }
+
 
     // Is the particle still useful?
     pub fn is_dead(&self) -> bool {
-        if self.life_span < 0.0 {
-            true
-        } else {
-            false
-        }
+        return self.life_span < 0.0;
+    }
+
+    pub fn is_consumed(&self) -> bool {
+        return self.is_dead() && self.tail.len() == 0;
     }
 }

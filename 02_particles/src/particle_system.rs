@@ -18,11 +18,18 @@ impl ParticleSystem {
     pub fn update(&mut self) {
         for i in (0..self.particles.len()).rev() {
             self.particles[i].update();
-            if self.particles[i].is_dead() {
+            if self.particles[i].is_consumed() {
                 self.particles.remove(i);
             }
         }
     }
+
+    pub fn apply_position<F: Fn(&mut Particle) -> Point2>(&mut self, func: F){
+        self.particles.iter_mut().for_each(|particle|{
+            particle.next_pos = func(particle);
+        });
+    }
+
 
     pub fn draw(&self, draw: &Draw) {
         for p in self.particles.iter() {

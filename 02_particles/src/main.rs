@@ -7,7 +7,7 @@
 mod particle;
 mod particle_system;
 
-use nannou::prelude::*;
+use nannou::{prelude::*, noise::Perlin, noise::NoiseFn};
 use particle_system::ParticleSystem;
 
 fn main() {
@@ -19,6 +19,7 @@ fn main() {
 
 struct Model {
     ps: ParticleSystem,
+    noise: Perlin,
 }
 
 const WIDTH: u32 = 1000;
@@ -28,17 +29,33 @@ fn model(app: &App) -> Model {
     app.new_window().size(WIDTH, HEIGHT).view(view).build().unwrap();
     let (_w, h) = app.window_rect().w_h();
     let ps = ParticleSystem::new();
-    Model { ps }
+    let noise = Perlin::new();
+    Model { ps , noise}
 }
 
 fn update(app: &App, m: &mut Model, _update: Update) {
+    m.ps.apply_position(|particle| {
+        pt2(particle.next_pos.x + 5.0 + random_range(-2.0, 2.0), particle.next_pos.y + 5.0 +random_range(-1.0, 1.0))
+    });
+
+    m.ps.apply_position(|particle| {
+        particle.next_pos + vec2(
+            m.noise.get([particle.next_pos.x as f64, particle.next_pos.y  as f64, 0.0]) as f32,
+            m.noise.get([particle.next_pos.x as f64, particle.next_pos.y as f64, 20.0]) as f32,
+        )
+    });
+
     m.ps.add_particle(pt2(random_range(-1.0 * WIDTH as f32, WIDTH as f32), random_range(-1.0 * HEIGHT as f32, HEIGHT as f32)));
     m.ps.update();
 }
 
 fn view(app: &App, m: &Model, frame: Frame) {
-    // Begin drawing
     let draw = app.draw();
+    if frame.nth() == 0 {
+        draw.background().color(WHITE); 
+    }
+    // Begin drawing
+    
     draw.background().color(WHITE);
 
     m.ps.draw(&draw);
