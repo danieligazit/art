@@ -7,6 +7,8 @@ members = [
     "05_differential_growth",
     "06_differential_growth_vec",
     "07_edge_detection",
+    "08_stochastic",
+    "09_plot",
 ]
 resolver="2"
 

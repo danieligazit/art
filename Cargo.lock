@@ -1835,6 +1835,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1df8c4ec4b0627e53bdf214615ad287367e482558cf84b109250b37464dc03ae"
 
 [[package]]
+name = "plot"
+version = "0.1.0"
+dependencies = [
+ "itertools",
+ "kd-tree",
+ "nannou",
+ "rand 0.6.5",
+ "typenum",
+]
+
+[[package]]
 name = "png"
 version = "0.16.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2356,6 +2367,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f77b6b07e862c66a9f3e62a07588fee67cd90a9135a2b942409f195507b4fb51"
 dependencies = [
  "byteorder",
+]
+
+[[package]]
+name = "stochastic"
+version = "0.1.0"
+dependencies = [
+ "edge-detection",
+ "image 0.24.2",
+ "itertools",
+ "kd-tree",
+ "nannou",
+ "rand 0.6.5",
+ "typenum",
 ]
 
 [[package]]
