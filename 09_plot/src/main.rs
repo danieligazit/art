@@ -69,19 +69,19 @@ fn view(app: &App, model: &Model, frame: Frame) {
     let t = frame.nth() as f32 / 2000.0;
     
     let nth = (frame.nth() + 1000) as f32;
-    FRange::new(nth * 0.2 , (nth + 1.0) * 0.2 , 0.0005)
-        .map(|t| vec2(t, t))
-        .map(one)
-        .map(two)
+    // FRange::new(nth * 0.2 , (nth + 1.0) * 0.2 , 0.0005)
+    //     .map(|t| vec2(t, t))
+    //     .map(one)
+    //     .map(two)
         
-        .for_each(|t| {
-            draw.ellipse()
-                .xy(t * 300.0)
-                // .color(rgb(12.75, 12.75, 12.75))
-                .color(LIGHTGRAY)
-                .radius(0.3)
-                ;      
-        });
+    //     .for_each(|t| {
+    //         draw.ellipse()
+    //             .xy(t * 300.0)
+    //             // .color(rgb(12.75, 12.75, 12.75))
+    //             .color(LIGHTGRAY)
+    //             .radius(0.3)
+    //             ;      
+    //     });
     
     // FRange::new(nth * 0.2 , (nth + 1.0) * 0.2 , 0.0005)
     //     .map(|t| vec2(t, t))
