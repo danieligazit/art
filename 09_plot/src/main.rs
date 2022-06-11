@@ -50,6 +50,13 @@ fn two(point: Point2) -> Point2 {
     )
 }
 
+fn three(point: Point2) -> Point2 {
+    pt2(
+        (point.x.pow(2) as f32/ point.x + point.x).sin(),
+        point.y.cos() + (point.y * point.y).sin()
+    )
+}
+
 fn view(app: &App, model: &Model, frame: Frame) {
     let draw = app.draw();
     // if frame.nth() >= 30000 {
@@ -60,22 +67,13 @@ fn view(app: &App, model: &Model, frame: Frame) {
     // frame.nth() as f32 - 1.0, frame.nth() as f32
 
     let t = frame.nth() as f32 / 2000.0;
-
-    // draw.ellipse()
-    //             .xy(vec2(
-    //                 t.sin() + (2.0 * t * t).sin() * t.cos(),
-    //                 t.cos() + t.pow(2.0).cos(),
-    //             ) * 200.0)
-    //             .color(WHITE)
-    //             // .color(color)
-    //             .radius(0.3)
-    //             ; 
     
     let nth = (frame.nth() + 1000) as f32;
     FRange::new(nth * 0.2 , (nth + 1.0) * 0.2 , 0.0005)
         .map(|t| vec2(t, t))
         .map(one)
         .map(two)
+        
         .for_each(|t| {
             draw.ellipse()
                 .xy(t * 300.0)
@@ -85,9 +83,25 @@ fn view(app: &App, model: &Model, frame: Frame) {
                 ;      
         });
     
+    // FRange::new(nth * 0.2 , (nth + 1.0) * 0.2 , 0.0005)
+    //     .map(|t| vec2(t, t))
+    //     .map(two)
+    //     .for_each(|t| {
+    //         draw.ellipse()
+    //             .xy(t * 300.0)
+    //             // .color(rgb(12.75, 12.75, 12.75))
+    //             .color(LIGHTGRAY)
+    //             .radius(0.3)
+    //             ;      
+    //     });
+    
     FRange::new(nth * 0.2 , (nth + 1.0) * 0.2 , 0.0005)
         .map(|t| vec2(t, t))
+        .map(three)
+
+        .map(one)
         .map(two)
+        
         .for_each(|t| {
             draw.ellipse()
                 .xy(t * 300.0)
