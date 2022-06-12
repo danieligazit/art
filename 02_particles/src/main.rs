@@ -50,6 +50,7 @@ fn update(app: &App, m: &mut Model, _update: Update) {
 }
 
 fn view(app: &App, m: &Model, frame: Frame) {
+    println!("her");
     let draw = app.draw();
     if frame.nth() == 0 {
         draw.background().color(WHITE); 

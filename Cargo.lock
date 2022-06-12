@@ -1745,6 +1745,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "particle_plot"
+version = "0.1.0"
+dependencies = [
+ "nannou",
+]
+
+[[package]]
 name = "particles"
 version = "0.1.0"
 dependencies = [

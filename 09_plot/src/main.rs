@@ -18,7 +18,7 @@ struct Model{
 
 fn model(app: &App) -> Model {
     app.new_window()
-        .size(1920, 1080)
+        .size(2160, 3840)
         .view(view)
         .build()
         .unwrap();  
@@ -104,7 +104,7 @@ fn view(app: &App, model: &Model, frame: Frame) {
         
         .for_each(|t| {
             draw.ellipse()
-                .xy(t * 300.0)
+                .xy(t * 400.0)
                 // .color(rgb(12.75, 12.75, 12.75))
                 .color(LIGHTGRAY)
                 .radius(0.3)

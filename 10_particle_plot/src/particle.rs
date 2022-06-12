@@ -19,7 +19,7 @@ impl Particle {
             tail: Vec::new(),
             pos: l,
             next_pos: l,
-            tail_length: 2,
+            tail_length: 0,
             achieved_adulthood: false,
             life_span: 100.0,
         }
@@ -34,7 +34,9 @@ impl Particle {
 
         if !self.is_dead(){
             self.pos = self.next_pos;
-            self.tail.push(self.pos);
+            if !self.tail_length == 0{
+                self.tail.push(self.pos);
+            }
             // self.velocity += self.acceleration;
             // self.pos -= self.velocity;
         }
@@ -52,21 +54,22 @@ impl Particle {
 
     // Method to display
     pub fn display(&self, draw: &Draw) {
-        let points = self.tail
-            .iter()
-            .map(|point| {
-                (*point, BLACK)
-            })
-            .chain(iter::once((self.pos, BLACK)));
+        // let points = self.tail
+        //     .iter()
+        //     .map(|point| {
+        //         (*point, BLACK)
+        //     })
+        //     .chain(iter::once((self.pos, BLACK)));
         
-        // let traingles = triangles(points);
-        // let poly = polyline::benel(points, thickness).round().triangles();
-
-        draw
-            .polyline()
-            .weight(3.0)
-            .points_colored(points)
-            ;
+        draw.ellipse()
+            .radius(0.5)
+            .xy(self.pos)
+            .color(WHITE)
+        // draw
+        //     .polyline()
+        //     .weight(3.0)
+        //     .points_colored(points)
+        //     ;
     }
 
 
