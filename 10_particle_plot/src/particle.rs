@@ -60,11 +60,11 @@ impl Particle {
         //         (*point, BLACK)
         //     })
         //     .chain(iter::once((self.pos, BLACK)));
-        
         draw.ellipse()
             .radius(0.5)
             .xy(self.pos)
             .color(WHITE)
+            ;
         // draw
         //     .polyline()
         //     .weight(3.0)

@@ -16,7 +16,7 @@ impl ParticleSystem {
     }
 
     pub fn delete_particles(&mut self){
-        self.particles.drain();
+        self.particles = Vec::new();
     }
     
     pub fn update(&mut self) {

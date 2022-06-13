@@ -11,7 +11,10 @@ mod particle_system;
 use utils::FRange;
 use nannou::{prelude::*, noise::Perlin, noise::NoiseFn};
 use particle_system::ParticleSystem;
-use std::collections::HashMap;
+use std::{collections::HashMap};
+
+use nalgebra;
+use std::hash::{Hasher, Hash};
 
 fn main() {
     nannou::app(model)
@@ -25,8 +28,8 @@ struct Model {
     noise: Perlin,
 }
 
-const WIDTH: u32 = 1000;
-const HEIGHT: u32 = 600;
+const WIDTH: u32 = 1080; // 2160
+const HEIGHT: u32 = 1920; // 3840
 
 fn model(app: &App) -> Model {
     app.new_window().size(WIDTH, HEIGHT).view(view).build().unwrap();
@@ -60,19 +63,26 @@ fn three(point: Point2) -> Point2 {
 
 fn update(app: &App, m: &mut Model, _update: Update) {
 
-    let max_particles = 10000;
-    let max_iteraions = 10000;
-    let offset = 1500;
+    let max_particles = 300000;
+    let max_iteraions = 300000;
+    let accuracy = 100_000_000_000.0;
+    let offset = 30000;
     let increment = 0.0005;
-    let locations = HashMap::new();
+    let mut locations = HashMap::new();
 
     for i in offset..offset+max_iteraions{
-        if locations.len() == max_particles{break;}
-        let seed = i * increment;
+        if locations.len() >= max_particles{break;}
+        let seed = i as f32 * increment;
 
         let location = two(one(three(vec2(seed, seed))));
 
-        let counter = locations.entry((location.x, location.y)).or_insert(0);
+        let counter = locations
+            .entry((
+                (location.x * accuracy) as i64, 
+                (location.y * accuracy) as i64,
+            ))
+            .or_insert(0);
+
         *counter += 1;
     }
 
@@ -80,12 +90,15 @@ fn update(app: &App, m: &mut Model, _update: Update) {
     
     locations
         .iter()
-        .for_each(|(location, count)| {
-            m.ps.add_particle(*location);
+        .for_each(|((x, y), count)| {
+            m.ps.add_particle(
+                400.0 * vec2(
+                    *x as f32 / accuracy,
+                    *y as f32 / accuracy,
+                )
+            );
         });
     
-    println!("here");
-
     m.ps.update();
 }
 
@@ -94,12 +107,9 @@ fn view(app: &App, m: &Model, frame: Frame) {
     if frame.nth() == 0 {
         draw.background().color(BLACK); 
     }
-    // Begin drawing
     
     draw.background().color(BLACK);
-
     m.ps.draw(&draw);
 
-    // Write the result of our drawing to the window's frame.
     draw.to_frame(app, &frame).unwrap();
 }

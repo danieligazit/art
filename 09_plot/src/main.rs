@@ -57,6 +57,7 @@ fn three(point: Point2) -> Point2 {
     )
 }
 
+
 fn view(app: &App, model: &Model, frame: Frame) {
     let draw = app.draw();
     // if frame.nth() >= 30000 {
@@ -101,10 +102,11 @@ fn view(app: &App, model: &Model, frame: Frame) {
 
         .map(one)
         .map(two)
-        
+        .map(|t| t * 300.0)
+        // .map(|t| vec2(t.x.round(), t.y.round()))
         .for_each(|t| {
             draw.ellipse()
-                .xy(t * 400.0)
+                .xy(t )
                 // .color(rgb(12.75, 12.75, 12.75))
                 .color(LIGHTGRAY)
                 .radius(0.3)
