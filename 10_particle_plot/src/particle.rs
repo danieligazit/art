@@ -19,9 +19,9 @@ impl Particle {
             tail: Vec::new(),
             pos: l,
             next_pos: l,
-            tail_length: 0,
+            tail_length: 20,
             achieved_adulthood: false,
-            life_span: 100.0,
+            life_span: 1000.0,
         }
     }
 
@@ -31,18 +31,19 @@ impl Particle {
 
     // Method to update position
     pub fn update(&mut self) {
-
+        
         if !self.is_dead(){
             self.pos = self.next_pos;
-            if !self.tail_length == 0{
+            
+            if self.tail_length != 0{
+                
                 self.tail.push(self.pos);
             }
-            // self.velocity += self.acceleration;
-            // self.pos -= self.velocity;
         }
         
         self.life_span -= 1.0;
         
+
         if (self.achieved_adulthood || self.is_dead()) && self.tail.len() > 0 {
             self.tail.remove(0);
         }
@@ -54,22 +55,37 @@ impl Particle {
 
     // Method to display
     pub fn display(&self, draw: &Draw) {
-        // let points = self.tail
-        //     .iter()
-        //     .map(|point| {
-        //         (*point, BLACK)
-        //     })
-        //     .chain(iter::once((self.pos, BLACK)));
-        draw.ellipse()
-            .radius(0.5)
-            .xy(self.pos)
-            .color(WHITE)
+        // let mm: Vec<usize> = self.tail.iter().enumerate().map(|(i, _)| i).collect();
+        // println!("{:?}", mm);
+
+        let points = self.tail
+            .iter()
+            .enumerate()
+            .map(|(i, point)| {
+                
+                // let new = i as f32 * 10.0;
+                // let color= rgb(255.0 - new , 255.0 - new, 255.0 - new);
+                // println!("{:?}", color);
+                (*point, WHITE)
+            })
+            .chain(iter::once((self.pos, WHITE)));
+        
+        if self.tail.len() == 0 {
+            draw.ellipse()
+                .radius(0.2)
+                .xy(self.pos)
+                .color(WHITE)
+                ;
+        }
+
+        draw
+            .polyline()
+            .weight(0.2)
+            .join_round()
+            .points_colored(points)
+            
+            // .color(WHITE)
             ;
-        // draw
-        //     .polyline()
-        //     .weight(3.0)
-        //     .points_colored(points)
-        //     ;
     }
 
 

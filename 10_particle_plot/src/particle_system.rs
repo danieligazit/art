@@ -2,7 +2,7 @@ use nannou::prelude::*;
 use crate::particle::Particle;
 
 pub struct ParticleSystem {
-    particles: Vec<Particle>,
+    pub particles: Vec<Particle>,
 }
 
 impl ParticleSystem {
@@ -26,6 +26,15 @@ impl ParticleSystem {
                 self.particles.remove(i);
             }
         }
+    }
+
+    pub fn apply_velocity<F: Fn(&Point2) -> Vec2>(&mut self, func: F){
+        self.particles
+            .iter_mut()
+            .for_each(|particle|{
+                let speed = func(&particle.next_pos);
+                particle.next_pos += speed;
+            })
     }
 
     pub fn apply_position<F: Fn(&mut Particle) -> Point2>(&mut self, func: F){

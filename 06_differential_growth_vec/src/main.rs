@@ -237,6 +237,7 @@ fn update(app: &App, model: &mut Model, _update: Update) {
 fn view(app: &App, model: &Model, frame: Frame) {
 
     let draw = app.draw();
+    
     // frame.clear(BLACK);
 
     draw.rect().w_h(1920.0, 1080.0).color(srgba(0.0, 0.0, 0.0, 0.05));
