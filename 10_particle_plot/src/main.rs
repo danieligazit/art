@@ -38,7 +38,7 @@ fn model(app: &App) -> Model {
 
 
     let max_particles = 300000;
-    let max_iteraions = 9000;// 300000;
+    let max_iteraions = 3000;// 300000;
     let accuracy = 100_000_000_000.0;
     let offset = 90000;
     let increment = 0.005;
@@ -136,15 +136,6 @@ fn update(app: &App, m: &mut Model, _update: Update) {
 
     let normal_dis = Normal::new(0.0, 0.4);
 
-    // m.ps.apply_velocity(|pos|{
-
-    //     let scale = 4.0;
-    //     let factor = scale * (normal_dis.sample(&mut rand::thread_rng()) as f32).abs();
-    //     vec2 (
-    //         0.005 * factor * pos.y + 1.5 * (pos.y * (pos.x * 5.0).cos() / 200.0), //+ scale * normal_dis.sample(&mut rand::thread_rng()) as f32,
-    //         -0.01 * factor * pos.y + (pos.x.cos() * 0.0), //+ scale * normal_dis.sample(&mut rand::thread_rng()) as f32,
-    //     )
-    // });
 
 
     m.ps.apply_velocity(|pos|{
@@ -158,6 +149,38 @@ fn update(app: &App, m: &mut Model, _update: Update) {
     });
         
 
+    // m.ps.apply_velocity(|pos|{
+
+    //     let scale = 4.0;
+    //     let factor = scale * (normal_dis.sample(&mut rand::thread_rng()) as f32).abs();
+    //     vec2 (
+    //         0.005 * factor * pos.y + 1.5 * (pos.y * (pos.x * 5.0).cos() / 200.0), //+ scale * normal_dis.sample(&mut rand::thread_rng()) as f32,
+    //         -0.01 * factor * pos.y + (pos.x.cos() * 0.0), //+ scale * normal_dis.sample(&mut rand::thread_rng()) as f32,
+    //     )
+    // });
+
+    
+    // m.ps.apply_velocity(|pos|{
+
+    //     let scale = 4.0;
+    //     let factor = scale * (normal_dis.sample(&mut rand::thread_rng()) as f32).abs();
+    //     vec2 (
+    //         (pos.y.cos() * 3.5) * (pos.y.sin() * 5.0).pow(2.0), //+ scale * normal_dis.sample(&mut rand::thread_rng()) as f32,
+    //         pos.y.cos() * pos.y / pos.x
+    //     )
+    // });
+
+        
+    // m.ps.apply_velocity(|pos|{
+
+    //     let scale = 4.0;
+    //     let factor = scale * (normal_dis.sample(&mut rand::thread_rng()) as f32).abs();
+    //     vec2 (
+    //         0.2 * (pos.y.cos() * 2.0) * (pos.y.sin() * 8.0).pow(2.0), //+ scale * normal_dis.sample(&mut rand::thread_rng()) as f32,
+    //         0.1 * (pos.y.cos() * 3.5) * (pos.x.sin() * 2.0).pow(2.0) * pos.y / pos.x 
+    //     )
+    // });
+
 }
 
 fn view(app: &App, m: &Model, frame: Frame) {
@@ -170,8 +193,8 @@ fn view(app: &App, m: &Model, frame: Frame) {
 
     draw.to_frame(app, &frame).unwrap();
 
-    let file_path = captured_frame_path(app, &frame);
-    app.main_window().capture_frame(file_path);
+    // let file_path = captured_frame_path(app, &frame);
+    // app.main_window().capture_frame(file_path);
 }
 
 fn captured_frame_path(app: &App, frame: &Frame) -> std::path::PathBuf {
@@ -180,7 +203,7 @@ fn captured_frame_path(app: &App, frame: &Frame) -> std::path::PathBuf {
         .expect("failed to locate `project_path`")
         // Capture all frames to a directory called `/<path_to_nannou>/nannou/simple_capture`.
         .join("output")
-        .join("3")
+        .join("004")
         // Name each file after the number of the frame.
         .join(format!("{}", frame.nth()))
         // The extension will be PNG. We also support tiff, bmp, gif, jpeg, webp and some others.
