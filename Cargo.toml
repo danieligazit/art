@@ -10,6 +10,7 @@ members = [
     "08_stochastic",
     "09_plot",
     "10_particle_plot",
+    "11_particle_square",
 ]
 resolver="2"
 

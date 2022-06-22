@@ -1813,6 +1813,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "particle_square"
+version = "0.1.0"
+dependencies = [
+ "itertools",
+ "kd-tree",
+ "nalgebra",
+ "nannou",
+ "rand 0.6.5",
+ "typenum",
+]
+
+[[package]]
 name = "particles"
 version = "0.1.0"
 dependencies = [
